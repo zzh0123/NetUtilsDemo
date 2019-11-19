@@ -9,6 +9,15 @@ public class User implements Serializable {
 	private String userName;
 	private String phoneNum;
 	private String sex;
+	private Integer age;
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
 
 	public String getUserId() {
 		return userId;

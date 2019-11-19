@@ -13,31 +13,31 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_result"
+            android:id="@+id/tv_getUserList"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="getUsers"
+            android:hint="getUserList"
             android:textColor="@color/black"
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/tv_result1"
+            android:id="@+id/tv_getUserResultByUserId"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="getUserSelectById"
+            android:hint="getUserResultByUserId"
             android:textColor="@color/black"
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/tv_result2"
+            android:id="@+id/tv_getUsersByPage"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -56,19 +56,19 @@
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="insert user mapper4"
+            android:hint="insertUser mapper"
             android:textColor="@color/black"
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/tv_result5"
+            android:id="@+id/tv_insertUser4"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="insertUser mapper"
+            android:hint="insertUser mapper4"
             android:textColor="@color/black"
             android:textSize="10sp" />
     </LinearLayout>
@@ -79,7 +79,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_result6"
+            android:id="@+id/tv_insertUser1"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -91,38 +91,38 @@
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/tv_result7"
+            android:id="@+id/tv_insertUser2"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="FieldMap"
+            android:hint="insertUser FieldMap"
             android:textColor="@color/black"
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/tv_result8"
+            android:id="@+id/tv_upload"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="upload()"
+            android:hint="upload"
             android:textColor="@color/black"
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/tv_result9"
+            android:id="@+id/tv_multiUpload"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="multiUpload()"
+            android:hint="multiUpload"
             android:textColor="@color/black"
             android:textSize="10sp" />
 
@@ -145,7 +145,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_result11"
+            android:id="@+id/tv_downLoadFile"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -169,27 +169,46 @@
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/tv_result13"
+            android:id="@+id/tv_multiUpload1"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="上传"
+            android:hint="multiUpload1"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_multiUpload2"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:gravity="center"
+            android:hint="multiUpload2"
             android:textColor="@color/black"
             android:textSize="10sp" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_result4"
+        android:id="@+id/tv_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:background="@color/white"
-        android:gravity="center"
         android:hint="结果"
         android:textColor="@color/black"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:layout_marginLeft="20dp"/>
 </LinearLayout>

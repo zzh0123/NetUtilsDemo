@@ -20,18 +20,18 @@ import okhttp3.ResponseBody;
 public class Subscribe {
 
     /**
-     * getUsers
+     * getUserList
      */
-    public static void getUsers(DisposableObserver<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getUsers();
+    public static void getUserList(DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getUserList();
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
     /**
-     * getUsersForQueryById
+     * getUserResultByUserId
      */
-    public static void getUserSelectById(String id, DisposableObserver<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getUserSelectById(id);
+    public static void getUserResultByUserId(String userId, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getUserResultByUserId(userId);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
@@ -46,10 +46,10 @@ public class Subscribe {
     /**
      * insert
      */
-    public static void insert(User user, DisposableObserver<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().insert(user);
-        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
-    }
+//    public static void insert(User user, DisposableObserver<ResponseBody> subscriber) {
+//        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().insert(user);
+//        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+//    }
 
     /**
      * insertUser
@@ -96,6 +96,14 @@ public class Subscribe {
      */
     public static void multiUpload1(RequestBody userId, RequestBody content, RequestBody typeList, List<MultipartBody.Part> parts, DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().multiUpload1(userId, content, typeList, parts);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * multiUpload2
+     */
+    public static void multiUpload2(Map<String, RequestBody> map, List<MultipartBody.Part> parts, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().multiUpload2(map, parts);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

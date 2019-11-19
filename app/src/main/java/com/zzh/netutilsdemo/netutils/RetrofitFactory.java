@@ -1,5 +1,7 @@
 package com.zzh.netutilsdemo.netutils;
 
+import android.os.Environment;
+
 import com.zzh.netutilsdemo.MyApplication;
 import com.zzh.netutilsdemo.netapi.BaseConstant;
 import com.zzh.netutilsdemo.netapi.HttpApi;
@@ -41,7 +43,7 @@ public class RetrofitFactory {
     /**
      * 请求失败重连次数
      */
-    private int RETRY_COUNT = 0;
+    private int RETRY_COUNT = 3;
     private OkHttpClient.Builder okHttpBuilder;
 
     //构造方法私有
@@ -51,6 +53,8 @@ public class RetrofitFactory {
         /**
          * 设置缓存
          */
+//        Environment.getExternalStorageDirectory().getAbsolutePath()
+//        MyApplication.appContext.getExternalCacheDir()
         File cacheFile = new File(MyApplication.appContext.getExternalCacheDir(), CACHE_NAME);
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
         Interceptor cacheInterceptor = new Interceptor() {

@@ -57,5 +57,11 @@ dependencies {
 
     // fastjson
     implementation 'com.alibaba:fastjson:1.1.71.android'
+
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+    implementation 'com.lzy.widget:imagepicker:0.6.1'  //指定版本
 }
 

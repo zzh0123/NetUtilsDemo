@@ -15,10 +15,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.loader.ImageLoader;
+import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.lzy.imagepicker.view.CropImageView;
 import com.zzh.netutilsdemo.R;
+import com.zzh.netutilsdemo.bean.ResultInfo;
 import com.zzh.netutilsdemo.bean.User;
 import com.zzh.netutilsdemo.netsubscribe.Subscribe;
+import com.zzh.netutilsdemo.netutils.OnSuccessAndFaultListener;
+import com.zzh.netutilsdemo.netutils.OnSuccessAndFaultSub;
 import com.zzh.netutilsdemo.presenter.FilePresenter;
+import com.zzh.netutilsdemo.utils.GsonUtils;
 import com.zzh.netutilsdemo.view.FileView;
 
 import java.io.File;
@@ -38,35 +48,47 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
 
     @BindView(R.id.tv_result) //绑定tv_result控件
     public TextView tv_result;
+    
+    @BindView(R.id.tv_getUserList) //绑定tv_result控件
+    public TextView tv_getUserList;
 
-    @BindView(R.id.tv_result1) //绑定tv_result控件
-    public TextView tv_result1;
+    @BindView(R.id.tv_getUserResultByUserId) //绑定tv_result控件
+    public TextView tv_getUserResultByUserId;
 
-    @BindView(R.id.tv_result2) //绑定tv_result控件
-    public TextView tv_result2;
+    @BindView(R.id.tv_getUsersByPage) //绑定tv_result控件
+    public TextView tv_getUsersByPage;
 
     @BindView(R.id.tv_result3) //绑定tv_result控件
     public TextView tv_result3;
 
-    @BindView(R.id.tv_result4) //绑定tv_result控件
-    public TextView tv_result4;
+    @BindView(R.id.tv_insertUser4) //绑定tv_result控件
+    public TextView tv_insertUser4;
 
-    @BindView(R.id.tv_result5) //绑定tv_result控件
-    public TextView tv_result5;
+    @BindView(R.id.tv_insertUser1) //绑定tv_result控件
+    public TextView tv_insertUser1;
 
-    @BindView(R.id.tv_result6) //绑定tv_result控件
-    public TextView tv_result6;
+    @BindView(R.id.tv_downLoadFile) //绑定tv_result控件
+    public TextView tv_downLoadFile;
 
-    @BindView(R.id.tv_result11) //绑定tv_result控件
-    public TextView tv_result11;
+    @BindView(R.id.tv_insertUser2) //绑定tv_result控件
+    public TextView tv_insertUser2;
 
-    @BindView(R.id.tv_result7) //绑定tv_result控件
-    public TextView tv_result7;
+    @BindView(R.id.tv_upload) //绑定tv_result控件
+    public TextView tv_upload;
 
+    @BindView(R.id.tv_multiUpload) //绑定tv_result控件
+    public TextView tv_multiUpload;
+
+    @BindView(R.id.tv_multiUpload1) //绑定tv_result控件
+    public TextView tv_multiUpload1;
+
+    @BindView(R.id.tv_multiUpload2) //绑定tv_result控件
+    public TextView tv_multiUpload2;
 
 
     private String id;
     private Map<String, Object> map;
+    int pageNo = 0;
 
     private User user;
 
@@ -99,71 +121,71 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
         imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
         imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
         imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
+
+        Log.i("codecraeer", "getFilesDir = " + getFilesDir());
+        Log.i("codecraeer", "getExternalFilesDir = " + getExternalFilesDir("exter_test").getAbsolutePath());
+        Log.i("codecraeer", "getDownloadCacheDirectory = " + Environment.getDownloadCacheDirectory().getAbsolutePath());
+        Log.i("codecraeer", "getDataDirectory = " + Environment.getDataDirectory().getAbsolutePath());
+        Log.i("codecraeer", "getExternalStorageDirectory = " + Environment.getExternalStorageDirectory().getAbsolutePath());
+        Log.i("codecraeer", "getExternalStoragePublicDirectory = " + Environment.getExternalStoragePublicDirectory("pub_test"));
     }
 
-    @OnClick({R.id.tv_result, R.id.tv_result1, R.id.tv_result2, R.id.tv_result3, R.id.tv_result5,
-            R.id.tv_result6, R.id.tv_result11, R.id.tv_result7, R.id.tv_result8, R.id.tv_result9,
-            R.id.tv_result10, R.id.tv_result12, R.id.tv_result13})   //给 tv_result 设置一个点击事件
+    @OnClick({R.id.tv_getUserList, R.id.tv_getUserResultByUserId, R.id.tv_getUsersByPage, R.id.tv_result3, R.id.tv_insertUser4,
+            R.id.tv_insertUser1, R.id.tv_downLoadFile, R.id.tv_insertUser2, R.id.tv_upload, R.id.tv_multiUpload,
+            R.id.tv_result10, R.id.tv_result12, R.id.tv_multiUpload1, R.id.tv_multiUpload2})   //给 tv_result 设置一个点击事件
     public void onViewClicked(View view){
         switch (view.getId()) {
-            case R.id.tv_result:
-                Toast.makeText(MainActivity1.this, "点击事件！", Toast.LENGTH_SHORT).show();
-                getUsers();
+            case R.id.tv_getUserList:
+                getUserList();
                 break;
-            case R.id.tv_result1:
-                Toast.makeText(MainActivity1.this, "点击事件1！", Toast.LENGTH_SHORT).show();
-                id = "22222222";
-                getUserSelectById();
+            case R.id.tv_getUserResultByUserId:
+                id = "18311004536";
+                getUserResultByUserId();
                 break;
-            case R.id.tv_result2:
-                Toast.makeText(MainActivity1.this, "点击事件2！", Toast.LENGTH_SHORT).show();
+            case R.id.tv_getUsersByPage:
+                pageNo++;
                 map = new HashMap<String, Object>();
-                map.put("pageSize", 5);
-                map.put("pageNo", "2");
+                map.put("pageSize", 4);
+                map.put("pageNo", pageNo + "");
                 getUsersByPage();
                 break;
             case R.id.tv_result3:
-                Toast.makeText(MainActivity1.this, "点击事件3！", Toast.LENGTH_SHORT).show();
                 user = new User();
                 user.setUserId("123456");
                 user.setUserName("白胡子");
-                user.setPhoneNum("123456");
-                user.setSex("男");
                 insert();
                 break;
-            case R.id.tv_result5:
-                Toast.makeText(MainActivity1.this, "点击事件5！", Toast.LENGTH_SHORT).show();
+            case R.id.tv_insertUser4:
+                pageNo++;
                 user = new User();
-                user.setUserId("123456789");
-                user.setUserName("波尼");
-                user.setPhoneNum("123456789");
-                user.setSex("女");
+                user.setUserId("123456789" + pageNo);
+                user.setUserName("波尼"+ pageNo);
+                user.setAge(20+ pageNo);
                 insertUser();
                 break;
 
-            case R.id.tv_result6:
-                Toast.makeText(MainActivity1.this, "点击事件6！", Toast.LENGTH_SHORT).show();
-                userId = "0123";
-                userName = "zzh";
+            case R.id.tv_insertUser1:
+                pageNo++;
+                userId = "0123" + pageNo;
+                userName = "zzh" + pageNo;
                 insertUser1();
                 break;
-            case R.id.tv_result11:
+            case R.id.tv_downLoadFile:
                 downLoadFile();
                 break;
 
-            case R.id.tv_result7:
-                Toast.makeText(MainActivity1.this, "点击事件7！", Toast.LENGTH_SHORT).show();
+            case R.id.tv_insertUser2:
+                pageNo++;
                 map = new HashMap<String, Object>();
-                map.put("userId", "213");
-                map.put("userName", "好人");
-                map.put("phoneNum", "1234");
-                map.put("sex", "男");
+                map.put("userId", vcode());
+                map.put("userName", "黑胡子蒂奇" + pageNo);
+                map.put("age", pageNo);
                 insertUser2();
                 break;
-            case R.id.tv_result8:
+            case R.id.tv_upload:
                 upload();
                 break;
-            case R.id.tv_result9:
+            case R.id.tv_multiUpload:
                 multiUpload();
                 break;
             case R.id.tv_result10:
@@ -174,22 +196,26 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
             case R.id.tv_result12:
                 test();
                 break;
-            case R.id.tv_result13:
+            case R.id.tv_multiUpload1:
                 multiUpload1();
                 break;
+            case R.id.tv_multiUpload2:
+                multiUpload2();
+                break;
+
 
         }
     }
 
-    private void getUsers() {
-        UserSubscribe.getUsers(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    private void getUserList() {
+        Subscribe.getUserList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
                 Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
@@ -200,15 +226,15 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
         }, MainActivity1.this));
     }
 
-    private void getUserSelectById() {
-        UserSubscribe.getUserSelectById(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    private void getUserResultByUserId() {
+        Subscribe.getUserResultByUserId(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
                 Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
@@ -220,14 +246,14 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
     }
 
     private void getUsersByPage() {
-        UserSubscribe.getUsersByPage(map, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        Subscribe.getUsersByPage(map, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
                 Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
@@ -239,33 +265,33 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
     }
 
     private void insert() {
-        UserSubscribe.insert(user, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                //成功
-                Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
-                ResultInfo resultInfo = GsonUtils.fromJson(result,
-                        ResultInfo.class);
-                tv_result4.setText(result);
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                //失败
-                Toast.makeText(MainActivity1.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
-            }
-        }, MainActivity1.this));
+//        Subscribe.insert(user, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+//            @Override
+//            public void onSuccess(String result) {
+//                //成功
+//                Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
+//                ResultInfo resultInfo = GsonUtils.fromJson(result,
+//                        ResultInfo.class);
+//                tv_result.setText(result);
+//            }
+//
+//            @Override
+//            public void onFault(String errorMsg) {
+//                //失败
+//                Toast.makeText(MainActivity1.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+//            }
+//        }, MainActivity1.this));
     }
 
     private void insertUser() {
-        UserSubscribe.insertUser(user, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        Subscribe.insertUser(user, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
                 Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
@@ -276,6 +302,7 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
         }, MainActivity1.this));
     }
 
+    // form
     private void insertUser1() {
         Subscribe.insertUser1(userId, userName, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -287,7 +314,7 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tv_result4.setText(result);
+                        tv_result.setText(result);
                     }
                 });
 
@@ -302,14 +329,14 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
     }
 
     private void insertUser2() {
-        UserSubscribe.insertUser2(map, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        Subscribe.insertUser2(map, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
                 Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
@@ -321,18 +348,21 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
     }
 
     private void downLoadFile(){
-        String url = "http://www.huihemuchang.com/nfs/apk/app-release.apk";
+//        String url = "http://www.huihemuchang.com/nfs/apk/app-release.apk";
+        String url = "http://192.168.188.184:8080/images/20191118151548225/d09996c6-4f61-4b08-b482-d6ac8eb450bd.jpg";
+
         String path = "";
         String dir = "";
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {// 检查是否有存储卡
-            dir = Environment.getExternalStorageDirectory() + "/test/";
+            dir = Environment.getExternalStorageDirectory() + "/android-test/";
             File dirFile = new File(dir);
             if (!dirFile.exists()) {
                 dirFile.mkdirs();
             }
         }
-        path = dir + "app-debug.apk";
+        path = dir + "huiheapp-debug.apk";
+        path = dir + "test.jpg";
         filePresenter.downLoadFile(url, path);
     }
 
@@ -343,20 +373,20 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
-        UserSubscribe.upload(part, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        Subscribe.upload(part, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
-                Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity1.this, "上传成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
             public void onFault(String errorMsg) {
                 //失败
-                Toast.makeText(MainActivity1.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity1.this, "上传失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
         }, MainActivity1.this));
     }
@@ -376,20 +406,20 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
             parts[i] = filePart;
         }
 
-        UserSubscribe.multiUpload(parts, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        Subscribe.multiUpload(parts, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
-                Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity1.this, "上传成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
             public void onFault(String errorMsg) {
                 //失败
-                Toast.makeText(MainActivity1.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity1.this, "上传失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
         }, MainActivity1.this));
     }
@@ -421,20 +451,60 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
         String content = "的路嘻嘻嘻！";
         RequestBody content_requestBody = toRequestBody(content);
 
-        UserSubscribe.multiUpload1(userId_requestBody, content_requestBody, requestBody3, parts,  new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        Subscribe.multiUpload1(userId_requestBody, content_requestBody, requestBody3, parts,  new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
-                Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity1.this, "上传成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
             public void onFault(String errorMsg) {
                 //失败
-                Toast.makeText(MainActivity1.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity1.this, "上传失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+            }
+        }, MainActivity1.this));
+    }
+
+    private void multiUpload2(){
+//        MultipartBody.Part[] parts = new MultipartBody.Part[images.size()];
+        List<MultipartBody.Part> parts = new ArrayList<MultipartBody.Part>();
+        for (int i = 0; i < images.size(); i++) {
+            File file = new File(images.get(i).path);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+//            parts[i] = filePart;
+            parts.add(filePart);
+        }
+//        RequestBody requestBody3 = RequestBody.create(MediaType.parse("application/json"), json_str);
+//        RequestBody requestBody4 = toRequestBody(json_str);
+
+        String userId = "18311004536";
+        RequestBody userId_requestBody = toRequestBody(userId);
+        Log.i("--userId--", "--userId--" + userId);
+        String content = "哈哈哈哈！";
+        RequestBody content_requestBody = toRequestBody(content);
+        Map<String, RequestBody> map = new HashMap<String, RequestBody>();
+        map.put("userId", userId_requestBody);
+        map.put("content", content_requestBody);
+
+        Subscribe.multiUpload2(map, parts,  new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                //成功
+                Toast.makeText(MainActivity1.this, "上传成功！", Toast.LENGTH_SHORT).show();
+                ResultInfo resultInfo = GsonUtils.fromJson(result,
+                        ResultInfo.class);
+                tv_result.setText(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                //失败
+                Toast.makeText(MainActivity1.this, "上传失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
         }, MainActivity1.this));
     }
@@ -468,14 +538,14 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
 //        map.put("pageNo", "2");
 //        RequestBody requestBody4 = toRequestBody(json_str);
         RequestBody requestBody_age = toRequestBody("12");
-        UserSubscribe.test("12", map,  new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        Subscribe.test("12", map,  new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 //成功
                 Toast.makeText(MainActivity1.this, "请求成功！", Toast.LENGTH_SHORT).show();
                 ResultInfo resultInfo = GsonUtils.fromJson(result,
                         ResultInfo.class);
-                tv_result4.setText(result);
+                tv_result.setText(result);
             }
 
             @Override
@@ -547,6 +617,16 @@ public class MainActivity1 extends AppCompatActivity implements FileView {
 
         }
     }
-
+    /**
+     * 生成6位随机数验证码
+     * @return
+     */
+    public String vcode(){
+        String vcode = "";
+        for (int i = 0; i < 11; i++) {
+            vcode = vcode + (int)(Math.random() * 9);
+        }
+        return vcode;
+    }
 
 }

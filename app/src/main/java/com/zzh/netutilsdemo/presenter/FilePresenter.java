@@ -36,7 +36,7 @@ public class FilePresenter implements Presenter<FileView>{
 
             @Override
             public void onErrorMsg(String msg) {
-
+                fileView.showError(msg);
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.zzh.netutilsdemo.netutils;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,6 +32,7 @@ public class FileUtil {
 
 
             long fileSize = body.contentLength();
+            Log.i("fileSize", "--fileSize--"+fileSize);
             long fileSizeDownloaded = 0;
             byte[] fileReader = new byte[4096];
 

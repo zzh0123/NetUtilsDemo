@@ -30,34 +30,24 @@ import retrofit2.http.Url;
 
 public interface HttpApi {
     // get请求
-    @GET("getUsers")
-    Observable<ResponseBody> getUsers();
+    @GET("user/getUserList")
+    Observable<ResponseBody> getUserList();
 
-    @GET("getUserSelectById")
-    Observable<ResponseBody> getUserSelectById(@Query("id") String id);
+    @GET("user/getUserResultByUserId")
+    Observable<ResponseBody> getUserResultByUserId(@Query("userId") String userId);
 
-    @GET("getUsersByPage")
+    @GET("user/getUsersByPage")
     Observable<ResponseBody> getUsersByPage(@QueryMap Map<String, Object> map);
 
-    @GET("sms/getCode")
-    Observable<ResponseBody> getVerificationCode(@QueryMap Map<String, Object> map);
-
-    @GET("getUsers")
-    Observable<ResponseBody> getWeatherDataForQuery(@Query("version") String version, @Query("city") String city);
-
-
     // post请求
-    @POST("insert")
-    Observable<ResponseBody> insert(@Body User user);
-
-    @POST("insertUser")
+    @POST("user/insertUser")
     Observable<ResponseBody> insertUser(@Body User user);
 
-    @POST("insertUser1")
+    @POST("user/insertUser1")
     @FormUrlEncoded
     Observable<ResponseBody> insertUser1(@Field("userId") String userId, @Field("userName") String userName);
 
-    @POST("insertUser2")
+    @POST("user/insertUser2")
     @FormUrlEncoded
     Observable<ResponseBody> insertUser2(@FieldMap Map<String, Object> map);
 
@@ -72,18 +62,27 @@ public interface HttpApi {
     /**
      *  文件上传
      */
-    @POST("upload")
+    // 传单张图片
+    @POST("share/upload")
     @Multipart
     Observable<ResponseBody> upload(@Part MultipartBody.Part part);
 
-    @POST("multiUpload")
+    // 传多张图片
+    @POST("share/multiUpload")
     @Multipart
     Observable<ResponseBody> multiUpload(@Part MultipartBody.Part[] parts);
 
+    // 传参数 + 多张图片
     @POST("share/multiUpload1")
     @Multipart
     Observable<ResponseBody> multiUpload1(@Part("userId") RequestBody userId, @Part("content") RequestBody content,
                                           @Part("typeList") RequestBody typeList,
+                                          @Part() List<MultipartBody.Part> parts);
+
+    // 传参数 + 多张图片(建议)
+    @POST("share/multiUpload2")
+    @Multipart
+    Observable<ResponseBody> multiUpload2(@PartMap Map<String, RequestBody> map,
                                           @Part() List<MultipartBody.Part> parts);
 
     @POST("share/test")
